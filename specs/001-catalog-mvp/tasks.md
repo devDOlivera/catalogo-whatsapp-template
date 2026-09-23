@@ -17,13 +17,13 @@
 
 ## Fase 2: Gestión de Estado (Zustand)
 
-- [ ] **5. Configurar Zustand Store:** Crear `store/cartStore.ts` integrando el middleware `persist`.
+- [x] **5. Configurar Zustand Store:** Crear `store/cartStore.ts` integrando el middleware `persist`.
   - *RF cubierto:* RF-05.
   - *Hecho cuando:* El estado inicial se guarda en el `localStorage` del navegador automáticamente al cargar.
-- [ ] **6. Implementar mutaciones de Carrito:** Programar `addItem`, `updateQuantity` y `removeItem` dentro de Zustand.
+- [x] **6. Implementar mutaciones de Carrito:** Programar `addItem`, `updateQuantity` y `removeItem` dentro de Zustand.
   - *RF cubierto:* RF-04.
   - *Hecho cuando:* El método respeta el tope máximo de 99 unidades y borra el ítem si la cantidad es 0.
-- [ ] **7. Validar Integridad Just-in-Time:** Crear el método `syncWithDB` en Zustand que consulte a Supabase y actualice los precios del estado local.
+- [x] **7. Validar Integridad Just-in-Time:** Crear el método `syncWithDB` en Zustand que consulte a Supabase y actualice los precios del estado local.
   - *RF cubierto:* RF-06.
   - *Hecho cuando:* Modificar un precio directo en SQL Supabase hace que el carrito local se actualice al ejecutar la función.
 
