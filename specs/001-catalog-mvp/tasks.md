@@ -29,28 +29,28 @@
 
 ## Fase 3: Panel de Administración
 
-- [ ] **8. Configurar Auth de Supabase:** Crear `(admin)/login/page.tsx` con formulario de email y contraseña.
+- [x] **8. Configurar Auth de Supabase:** Crear `(admin)/login/page.tsx` con formulario de email y contraseña.
   - *RF cubierto:* RF-09.
   - *Hecho cuando:* Ingresar credenciales correctas devuelve un token JWT en la sesión.
-- [ ] **9. Proteger Rutas Admin:** Crear `(admin)/layout.tsx` con middleware o validación on-mount para redirigir si no hay sesión.
+- [x] **9. Proteger Rutas Admin:** Crear `(admin)/layout.tsx` con middleware o validación on-mount para redirigir si no hay sesión.
   - *RF cubierto:* RF-09.
   - *Hecho cuando:* Intentar entrar a `/dashboard` sin login redirige forzosamente a `/login`.
-- [ ] **10. UI de Dashboard (Listado):** Crear la vista de `/dashboard` que renderice una tabla con todos los productos (ignorando su estado `is_active`).
+- [x] **10. UI de Dashboard (Listado):** Crear la vista de `/dashboard` que renderice una tabla con todos los productos (ignorando su estado `is_active`).
   - *RF cubierto:* Fundacional.
   - *Hecho cuando:* La tabla muestra datos mockeados o reales de la tabla `products`.
-- [ ] **11. Crear Formulario de Producto (Imagen Obligatoria):** Implementar carga de imagen hacia Supabase Storage y guardar el registro `product`.
+- [x] **11. Crear Formulario de Producto (Imagen Obligatoria):** Implementar carga de imagen hacia Supabase Storage y guardar el registro `product`.
   - *RF cubierto:* RF-10.
   - *Hecho cuando:* Enviar el formulario sin imagen tira error, y enviarlo completo guarda el archivo y el registro DB.
-- [ ] **12. Lógica de Variante "Única":** Modificar el submit del formulario anterior para que, por defecto, inserte un registro en `product_variants` llamado "Única" con su precio.
+- [x] **12. Lógica de Variante "Única":** Modificar el submit del formulario anterior para que, por defecto, inserte un registro en `product_variants` llamado "Única" con su precio.
   - *RF cubierto:* RF-11.
   - *Hecho cuando:* Al crear un producto simple, aparecen 2 registros en la DB (1 en products, 1 en variants).
-- [ ] **13. Formulario Multi-Variante:** Añadir UI dinámica para agregar múltiples variantes y precios al editar/crear un producto.
+- [x] **13. Formulario Multi-Variante:** Añadir UI dinámica para agregar múltiples variantes y precios al editar/crear un producto.
   - *RF cubierto:* RF-11.
   - *Hecho cuando:* Se pueden agregar "N" filas de variantes antes de guardar en base de datos.
-- [ ] **14. Toggles de Disponibilidad:** Añadir switches en la tabla/formulario para actualizar la columna `is_active` de productos y variantes.
+- [x] **14. Toggles de Disponibilidad:** Añadir switches en la tabla/formulario para actualizar la columna `is_active` de productos y variantes.
   - *RF cubierto:* RF-13, RF-14.
   - *Hecho cuando:* Hacer click en el switch hace un UPDATE directo en Supabase.
-- [ ] **15. Eliminación de Producto:** Añadir botón de borrar que dispare un DELETE al registro de `products`.
+- [x] **15. Eliminación de Producto:** Añadir botón de borrar que dispare un DELETE al registro de `products`.
   - *RF cubierto:* RF-12.
   - *Hecho cuando:* Eliminar el producto destruye sus variantes vinculadas automáticamente por la base de datos.
 
