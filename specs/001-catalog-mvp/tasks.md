@@ -68,16 +68,16 @@
 
 ## Fase 5: Carrito y Checkout
 
-- [ ] **19. Interfaz de Carrito:** Crear vista/drawer para listar ítems. Incluir botones (+/-) para modificar cantidades que llamen a las mutaciones Zustand.
+- [x] **19. Interfaz de Carrito:** Crear vista/drawer para listar ítems. Incluir botones (+/-) para modificar cantidades que llamen a las mutaciones Zustand.
   - *RF cubierto:* RF-04.
   - *Hecho cuando:* Hacer click en "+" suma al contador local y al localStorage de forma instantánea.
-- [ ] **20. Subtotales y Bloqueo de Vacío:** Implementar el cálculo del total basado en la moneda del env, y deshabilitar el botón principal si `cart.length === 0`.
+- [x] **20. Subtotales y Bloqueo de Vacío:** Implementar el cálculo del total basado en la moneda del env, y deshabilitar el botón principal si `cart.length === 0`.
   - *RF cubierto:* RF-01, RF-07, RF-08.
   - *Hecho cuando:* Con carrito vacío el botón es gris/no-clickeable. Al tener items, se muestra el total formateado.
-- [ ] **21. Ejecución Just-in-Time:** Conectar la función `syncWithDB` de Zustand para que se ejecute al abrir el carrito.
+- [x] **21. Ejecución Just-in-Time:** Conectar la función `syncWithDB` de Zustand para que se ejecute al abrir el carrito.
   - *RF cubierto:* RF-06.
   - *Hecho cuando:* Un console.log confirma que se validaron los precios en background al entrar.
-- [ ] **22. Checkout WhatsApp:** Crear la función que toma el carrito, formatea el string, lo codifica con `encodeURIComponent` y redirige a la API de WhatsApp.
+- [x] **22. Checkout WhatsApp:** Crear la función que toma el carrito, formatea el string, lo codifica con `encodeURIComponent` y redirige a la API de WhatsApp.
   - *RF cubierto:* RF-08.
   - *Hecho cuando:* Dar click en el botón abre una pestaña nueva hacia `api.whatsapp.com/send...` con el texto completo.
 
