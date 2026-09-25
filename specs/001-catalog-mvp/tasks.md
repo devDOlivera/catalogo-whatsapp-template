@@ -56,13 +56,13 @@
 
 ## Fase 4: Vista del Cliente (Catálogo)
 
-- [ ] **16. Layout y Navbar del Cliente:** Crear `(client)/layout.tsx` que lea el nombre del comercio del `.env` y consuma el total del carrito de Zustand.
+- [x] **16. Layout y Navbar del Cliente:** Crear `(client)/layout.tsx` que lea el nombre del comercio del `.env` y consuma el total del carrito de Zustand.
   - *RF cubierto:* RF-01, RF-07.
   - *Hecho cuando:* El header dice el nombre de tu comercio y el ícono del carrito muestra un número `0`.
-- [ ] **17. Grilla de Productos:** Programar el fetch en `(client)/page.tsx` para obtener solo productos con `is_active=true` y sus variantes `is_active=true`.
+- [x] **17. Grilla de Productos:** Programar el fetch en `(client)/page.tsx` para obtener solo productos con `is_active=true` y sus variantes `is_active=true`.
   - *RF cubierto:* RF-02.
   - *Hecho cuando:* Apagar un producto desde admin lo hace desaparecer instantáneamente al recargar el cliente.
-- [ ] **18. UI Tarjeta de Producto:** Crear el componente `ProductCard` y su lógica.
+- [x] **18. UI Tarjeta de Producto:** Crear el componente `ProductCard` y su lógica.
   - *RF cubierto:* RF-03.
   - *Hecho cuando:* Productos simples muestran botón "Agregar". Productos con variantes muestran un `select` antes de permitir agregar.
 
