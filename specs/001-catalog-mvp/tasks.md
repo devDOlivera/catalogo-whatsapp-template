@@ -83,6 +83,6 @@
 
 ## Fase 6: Despliegue
 
-- [ ] **23. Despliegue en Vercel:** Subir repositorio a GitHub, conectar a Vercel y cargar variables de entorno.
+- [x] **23. Despliegue en Vercel:** Subir repositorio a GitHub, conectar a Vercel y cargar variables de entorno.
   - *RF cubierto:* Criterio de Finalización.
   - *Hecho cuando:* La aplicación es navegable y plenamente funcional en la URL de producción.
