@@ -3,35 +3,35 @@
 Este documento desglosa el plan de implementación en tareas granulares, ordenadas por dependencia, verificables y listas para ser ejecutadas.
 
 ## Fase 1: Base de Datos y Modelo
-- [ ] **Tarea 1.1:** Crear la tabla `categories` en Supabase (campos: `id`, `name`, `created_at`).
+- [x] **Tarea 1.1:** Crear la tabla `categories` en Supabase (campos: `id`, `name`, `created_at`).
   * **Cubre:** [RF-18]
   * **Hecho cuando:** La tabla existe en el esquema de Supabase y permite inserciones.
-- [ ] **Tarea 1.2:** Alterar la tabla `products` añadiendo campos V1 (`category_id` FK nullable, `is_best_seller` boolean, `is_offer` boolean, `characteristics` text).
+- [x] **Tarea 1.2:** Alterar la tabla `products` añadiendo campos V1 (`category_id` FK nullable, `is_best_seller` boolean, `is_offer` boolean, `characteristics` text).
   * **Cubre:** [RF-15, RF-18]
   * **Hecho cuando:** Los nuevos campos existen y devuelven datos correctamente a través de la API.
-- [ ] **Tarea 1.3:** Migrar la columna única de imagen en `products` hacia un campo de arreglo `images` (tipo `TEXT[]`). (Y migrar datos MVP a `images[0]`).
+- [x] **Tarea 1.3:** Migrar la columna única de imagen en `products` hacia un campo de arreglo `images` (tipo `TEXT[]`). (Y migrar datos MVP a `images[0]`).
   * **Cubre:** [RF-17]
   * **Hecho cuando:** La base de datos puede guardar un array de hasta 4 strings por producto, y los productos viejos no perdieron su imagen.
 
 ## Fase 2: Estado Global y Lógica Core (Zustand & Utils)
-- [ ] **Tarea 2.1:** Modificar la acción `addProducto` del store de Zustand para incrementar directamente +1 y aplicar un tope máximo duro de 99 unidades.
+- [x] **Tarea 2.1:** Modificar la acción `addProducto` del store de Zustand para incrementar directamente +1 y aplicar un tope máximo duro de 99 unidades.
   * **Cubre:** [RF-16]
   * **Hecho cuando:** Llamar a la acción con un producto ya existente sube su `quantity` en +1, y lanzar otro evento al llegar a 99 detiene el incremento (se puede probar mediante consola).
-- [ ] **Tarea 2.2:** Crear utilidad pura para cálculo de "Novedades" (Evaluación de fechas UTC < 30 días respecto al `created_at`).
+- [x] **Tarea 2.2:** Crear utilidad pura para cálculo de "Novedades" (Evaluación de fechas UTC < 30 días respecto al `created_at`).
   * **Cubre:** [RF-19]
   * **Hecho cuando:** Una función de test recibe un array de productos y retorna solo los activos con fecha menor a 30 días, sin importar la zona horaria del cliente.
 
 ## Fase 3: UI Backend (Panel de Administración)
-- [ ] **Tarea 3.1:** Crear y aplicar `LayoutAdmin` heredando la hoja de estilos global del catálogo. Integrar `LayoutHeader` con logo vía variable de entorno.
+- [x] **Tarea 3.1:** Crear y aplicar `LayoutAdmin` heredando la hoja de estilos global del catálogo. Integrar `LayoutHeader` con logo vía variable de entorno.
   * **Cubre:** [RF-23, RN: UI/UX Unificada]
   * **Hecho cuando:** La ruta secreta `/admin` luce visualmente con la misma paleta y tipografía del catálogo, y el logo carga desde `.env`.
-- [ ] **Tarea 3.2:** Añadir en `ProductEditor` el selector `select` para categorías (opcional) y los switches booleanos para Oferta y Más Vendido.
+- [x] **Tarea 3.2:** Añadir en `ProductEditor` el selector `select` para categorías (opcional) y los switches booleanos para Oferta y Más Vendido.
   * **Cubre:** [RF-18, RF-22]
   * **Hecho cuando:** El administrador puede guardar un producto con "Sin Categoría" y sus banderas correspondientes impactan en Supabase.
-- [ ] **Tarea 3.3:** Añadir en `ProductEditor` el campo de texto amplio (`textarea`) para `characteristics`.
+- [x] **Tarea 3.3:** Añadir en `ProductEditor` el campo de texto amplio (`textarea`) para `characteristics`.
   * **Cubre:** [RF-15, RF-22]
   * **Hecho cuando:** El texto escrito con múltiples saltos de línea se guarda en Supabase sin inyecciones de código.
-- [ ] **Tarea 3.4:** Construir el `ImageManager` en `ProductEditor`. Debe permitir de 1 a 4 imágenes, con validación de <5MB y formato en cliente, y permitir arrastrar para reordenar.
+- [x] **Tarea 3.4:** Construir el `ImageManager` en `ProductEditor`. Debe permitir de 1 a 4 imágenes, con validación de <5MB y formato en cliente, y permitir arrastrar para reordenar.
   * **Cubre:** [RF-17, Casos Límite: Límite excedido]
   * **Hecho cuando:** Intentar subir una quinta imagen, o una de 10MB, o eliminar la última foto restante, dispara un error visual rojo; reordenar las fotos y guardar actualiza el orden en el array `TEXT[]` de Supabase.
 

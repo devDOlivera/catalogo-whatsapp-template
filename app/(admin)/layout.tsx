@@ -8,6 +8,8 @@ export default function AdminLayout({ children } : { children: React.ReactNode }
     const [loading, setLoading] = useState(true);
     const router = useRouter();
     const pathname = usePathname();
+    
+    const logoUrl = process.env.NEXT_PUBLIC_STORE_LOGO_URL || "";
 
     useEffect(() => {
         const checkUser = async () => {
@@ -25,19 +27,24 @@ export default function AdminLayout({ children } : { children: React.ReactNode }
         checkUser();
     }, [router, pathname]);
 
-    if (loading) return <div className="p-8 text-center">Cargando panel...</div>;
+    if (loading) return <div className="p-8 text-center flex items-center justify-center min-h-screen">Cargando panel...</div>;
 
     if (pathname === "/login") {
         return <>{children}</>;
     }
 
     return (
-        <div className="min-h-screen flex bg-gray-50">
-            <aside className="w-64 bg-gray-900 text-white p-4">
-                <h1 className="text-xl font-bold mb-6">Admin Panel</h1>
+        <div className="min-h-screen flex bg-gray-50 text-gray-900">
+            <aside className="w-64 bg-white border-r border-gray-200 p-6 flex flex-col shadow-sm z-10">
+                <div className="mb-8 flex justify-center">
+                    {logoUrl ? (
+                        <img src={logoUrl} alt="Store Logo" className="h-25 object-contain" />
+                    ) : (
+                        <h1 className="text-2xl font-bold text-gray-800 tracking-tight">Admin Panel</h1>
+                    )}
+                </div>
                 <nav className="flex flex-col gap-2">
-                    {/* Aquí puedes agregar enlaces en el futuro */}
-                    <span className="p-2 bg-gray-800 rounded">Catálogo</span>
+                    <span className="p-3 bg-blue-50 text-blue-700 font-semibold rounded-lg shadow-sm border border-blue-100">Catálogo</span>
                 </nav>
             </aside>
             <main className="flex-1 p-8">{children}</main>
