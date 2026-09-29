@@ -36,26 +36,26 @@ Este documento desglosa el plan de implementación en tareas granulares, ordenad
   * **Hecho cuando:** Intentar subir una quinta imagen, o una de 10MB, o eliminar la última foto restante, dispara un error visual rojo; reordenar las fotos y guardar actualiza el orden en el array `TEXT[]` de Supabase.
 
 ## Fase 4: UI Frontend (Catálogo Cliente)
-- [ ] **Tarea 4.1:** Crear `CatalogFilters` (componente Sticky): Input texto real-time, campos input number (Min/Máx), select Categoría, toggle Oferta.
+- [x] **Tarea 4.1:** Crear `CatalogFilters` (componente Sticky): Input texto real-time, campos input number (Min/Máx), select Categoría, toggle Oferta.
   * **Cubre:** [RF-20]
   * **Hecho cuando:** Los controles se renderizan pegados al tope superior (sticky) y sus estados de React responden a los cambios del usuario.
-- [ ] **Tarea 4.2:** Integrar el filtrado acumulativo (Lógica AND) entre `CatalogFilters` y los productos mostrados, implementando el `EmptyState` (estado vacío).
+- [x] **Tarea 4.2:** Integrar el filtrado acumulativo (Lógica AND) entre `CatalogFilters` y los productos mostrados, implementando el `EmptyState` (estado vacío).
   * **Cubre:** [RF-20, Casos Límite: Estado Vacío]
   * **Hecho cuando:** Si el usuario busca "Guitarra" + Oferta, solo aparecen esas. Si no hay ninguna, aparece un aviso de "No hay resultados" y un botón "Limpiar todos".
-- [ ] **Tarea 4.3:** Crear el componente renderizador de agrupaciones dinámicas para `ProductGrid` (Módulos: Novedades, Más Vendidos, Ofertas, Todos).
+- [x] **Tarea 4.3:** Crear el componente renderizador de agrupaciones dinámicas para `ProductGrid` (Módulos: Novedades, Más Vendidos, Ofertas, Todos).
   * **Cubre:** [RF-18, RF-19, Casos Límite: Ausencia de Novedades]
   * **Hecho cuando:** El catálogo principal muestra bloques separados con títulos; si no hay ningún producto en Novedades, la sección de título "Novedades" no se renderiza.
-- [ ] **Tarea 4.4:** Refactorizar `ProductCard`. Modificar el evento del botón Agregar (agrega +1 silencioso o abre modal si requiere variantes). Agregar un feedback de Toast visual "¡Agregado!".
+- [x] **Tarea 4.4:** Refactorizar `ProductCard`. Modificar el evento del botón Agregar (agrega +1 silencioso o abre modal si requiere variantes). Agregar un feedback de Toast visual "¡Agregado!".
   * **Cubre:** [RF-16, RN: Experiencia Moderna]
   * **Hecho cuando:** Hacer clic sobre "Agregar" en una remera talla única muestra un micro-rebote/toast. Hacer clic en una remera multitalle dispara un evento modal.
-- [ ] **Tarea 4.5:** Crear componente `ProductModal`. Mostrar carrusel (lazy-load para índices 1,2,3), mostrar `characteristics` (`white-space: pre-wrap`), y pre-seleccionar variante inicial en select.
+- [x] **Tarea 4.5:** Crear componente `ProductModal`. Mostrar carrusel (lazy-load para índices 1,2,3), mostrar `characteristics` (`white-space: pre-wrap`), y pre-seleccionar variante inicial en select.
   * **Cubre:** [RF-15, RF-16, RN: Rendimiento Visual]
   * **Hecho cuando:** Al hacer clic en un producto, se abre un modal de forma suave (animación), la segunda y tercera imagen se descargan recién en ese momento (verificable en pestaña Red), y el botón "Agregar" funciona instantáneamente.
-- [ ] **Tarea 4.6:** Convertir el carrito actual en un componente `CartDrawer` (panel lateral). Implementar listeners de cierre (Escape, Clic en Overlay, Botón X).
+- [x] **Tarea 4.6:** Convertir el carrito actual en un componente `CartDrawer` (panel lateral). Implementar listeners de cierre (Escape, Clic en Overlay, Botón X).
   * **Cubre:** [RF-21]
   * **Hecho cuando:** Al abrir el carrito, este entra deslizando desde un lateral; presionar la tecla Esc lo cierra animadamente devolviendo el foco al catálogo general.
 
 ## Fase 5: Integración y Casos Límite Finales
-- [ ] **Tarea 5.1:** Validar el comportamiento JIT (Just In Time) dentro del `CartDrawer` vs Supabase.
+- [x] **Tarea 5.1:** Validar el comportamiento JIT (Just In Time) dentro del `CartDrawer` vs Supabase.
   * **Cubre:** [Casos Límite: Single Source vs Panel Abierto]
   * **Hecho cuando:** Teniendo el panel lateral abierto, si un admin sube el precio manualmente en DB, y el cliente presiona "Generar Pedido", se cancela el envío, los precios cambian frente al usuario y se lanza la alerta JIT del MVP.

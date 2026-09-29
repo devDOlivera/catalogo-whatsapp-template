@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import { useCartStore } from "@/store/cartStore";
+import ProductModal from "./ProductModal";
 
 export interface Variant {
     id: string;
@@ -11,105 +12,110 @@ export interface Variant {
     is_active: boolean;
 }
 
-export interface Product {
+export interface ProductV1Card {
     id: string;
     title: string;
     description: string | null;
-    image_url: string;
+    characteristics: string | null;
+    images: string[];
     product_variants: Variant[];
 }
 
 interface ProductCardProps {
-    product: Product;
+    product: ProductV1Card;
     currency: string;
 }
 
 export default function ProductCard({ product, currency }: ProductCardProps) {
     const addItem = useCartStore((state) => state.addItem);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [addedToast, setAddedToast] = useState(false);
 
-    // Filtrar variantes activas de respaldo
+    // Filtrar variantes activas
     const activeVariants = product.product_variants.filter((v) => v.is_active);
-
     const hasMultipleVariants = activeVariants.length > 1;
-    const [selectedVariantId, setSelectedVariantId] = useState<string>(
-        activeVariants[0]?.id || ""
-    );
+    
+    // Si no hay variantes activas, no mostramos la tarjeta
+    if (activeVariants.length === 0) return null;
 
-    const currentVariant = activeVariants.find((v) => v.id === selectedVariantId) || activeVariants[0];
+    const baseVariant = activeVariants[0];
 
-    const handleAddToCart = () => {
-        if (!currentVariant) return;
+    const handleActionClick = (e: React.MouseEvent) => {
+        e.stopPropagation();
 
-        const variantLabel = currentVariant.name === "Única"
-            ? product.title
-            : `${product.title} (${currentVariant.name})`;
+        if (hasMultipleVariants) {
+            // Si tiene variantes, abrimos el modal
+            setIsModalOpen(true);
+        } else {
+            // Si es variante única, sumamos +1 directo y mostramos feedback visual
+            addItem({
+                variantId: baseVariant.id,
+                productId: product.id,
+                name: baseVariant.name === "Única" ? product.title : `${product.title} (${baseVariant.name})`,
+                price: baseVariant.price,
+                quantity: 1,
+                imageUrl: product.images[0], // Usamos la portada
+            });
 
-        addItem({
-            variantId: currentVariant.id,
-            productId: product.id,
-            name: variantLabel,
-            price: currentVariant.price,
-            quantity: 1,
-            imageUrl: product.image_url,
-        });
+            // Mostrar micro-feedback temporal
+            setAddedToast(true);
+            setTimeout(() => setAddedToast(false), 1500);
+        }
     };
 
-    if (!currentVariant) return null;
-
     return (
-        <article className="flex flex-col bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-            <div className="relative aspect-square w-full bg-gray-100">
-                <Image
-                    src={product.image_url}
-                    alt={product.title}
-                    fill
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                    className="object-cover"
-                />
-            </div>
-
-            <div className="flex flex-col flex-1 p-4">
-                <h2 className="text-base font-semibold text-gray-900 leading-snug">
-                    {product.title}
-                </h2>
-
-                {product.description && (
-                    <p className="mt-1 text-sm text-gray-500 line-clamp-2">
-                        {product.description}
-                    </p>
-                )}
-
-                <div className="mt-auto pt-4">
-                    <div className="flex items-baseline justify-between mb-3">
-                        <span className="text-lg font-bold text-gray-900">
-                            {currency} {currentVariant.price.toFixed(2)}
-                        </span>
-
-                        {hasMultipleVariants && (
-                            <select
-                                aria-label="Seleccionar variante"
-                                value={selectedVariantId}
-                                onChange={(e) => setSelectedVariantId(e.target.value)}
-                                className="text-xs bg-gray-50 border border-gray-300 rounded-md px-2 py-1 text-gray-700 focus:outline-none focus:ring-1 focus:ring-black"
-                            >
-                                {activeVariants.map((variant) => (
-                                    <option key={variant.id} value={variant.id}>
-                                        {variant.name}
-                                    </option>
-                                ))}
-                            </select>
-                        )}
-                    </div>
-
-                    <button
-                        type="button"
-                        onClick={handleAddToCart}
-                        className="w-full bg-black hover:bg-gray-800 text-white text-sm font-medium  py-2.5 px-4 rounded-lg transition-colors active:scale-[0.98]"
-                    >
-                        Agregar
-                    </button>
+        <>
+            <article
+                onClick={() => setIsModalOpen(true)}
+                className="flex flex-col bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-sm hover:shadow-xl transition-all cursor-pointer group h-full"
+            >
+                <div className="relative aspect-square w-full bg-gray-50 overflow-hidden">
+                    <Image
+                        src={product.images[0] || "/placeholder.png"}
+                        alt={product.title}
+                        fill
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                        className="object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
                 </div>
-            </div>
-        </article>
+
+                <div className="flex flex-col flex-1 p-5">
+                    <h2 className="text-lg font-bold text-gray-900 leading-snug">
+                        {product.title}
+                    </h2>
+
+                    {product.description && (
+                        <p className="mt-2 text-sm text-gray-500 line-clamp-2">
+                            {product.description}
+                        </p>
+                    )}
+
+                    <div className="mt-auto pt-5">
+                        <div className="flex items-baseline justify-between mb-4">
+                            <span className="text-xl font-black text-gray-900">
+                                {currency} {baseVariant.price.toFixed(2)}
+                            </span>
+                        </div>
+
+                        {/* Botón dinámico */}
+                        <button
+                            type="button"
+                            onClick={handleActionClick}
+                            className={`w-full text-white text-sm font-bold py-3 px-4 rounded-xl transition-all active:scale-[0.98] ${addedToast ? 'bg-green-500 shadow-lg shadow-green-500/30' : 'bg-black hover:bg-gray-800'}`}
+                        >
+                            {addedToast ? "¡Agregado +1!" : (hasMultipleVariants ? "Elegir opciones" : "Agregar")}
+                        </button>
+                    </div>
+                </div>
+            </article>
+
+            {isModalOpen && (
+                <ProductModal
+                    product={product}
+                    currency={currency}
+                    onClose={() => setIsModalOpen(false)}
+                />
+            )}
+        </>
     );
 }

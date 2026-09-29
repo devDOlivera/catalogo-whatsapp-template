@@ -1,16 +1,35 @@
 import { supabase } from "@/lib/supabase/client";
-import ProductCard, { Product } from "@/components/client/ProductCard";
+import CatalogClient from "@/components/client/CatalogClient";
+import { Variant } from "@/components/client/ProductCard";
 
 export const revalidate = 0; // Garantiza Single Source of Truth
 
-async function getCatalog(): Promise<Product[]> {
+export interface ProductV1 {
+    id: string;
+    title: string;
+    description: string | null;
+    characteristics: string | null;
+    images: string[];
+    is_best_seller: boolean;
+    is_offer: boolean;
+    created_at: string;
+    category_id: string | null;
+    product_variants: Variant[];
+}
+
+async function getCatalog(): Promise<ProductV1[]> {
     const { data, error } = await supabase
         .from("products")
         .select(`
             id,
             title,
             description,
-            image_url,
+            characteristics,
+            images,
+            is_best_seller,
+            is_offer,
+            created_at,
+            category_id,
             product_variants!inner (
                 id,
                 name,
@@ -27,41 +46,24 @@ async function getCatalog(): Promise<Product[]> {
         return [];
     }
 
-    return (data as unknown as Product[]) || [];
+    return (data as unknown as ProductV1[]) || [];
+}
+
+async function getCategories() {
+    const { data } = await supabase.from("categories").select("id, name");
+    return data || [];
 }
 
 export default async function CatalogPage() {
     const products = await getCatalog();
+    const categories = await getCategories();
     const currency = process.env.NEXT_PUBLIC_COMMERCE_CURRENCY || "$";
 
     return (
-        <div>
-            <section className="mb-6">
-                <h1 className="text-2xl font-bold tracking-tight text-gray-900">
-                    Nuestros Productos
-                </h1>
-                <p className="text-sm text-gray-500 mt-1">
-                    Elige los productos que desees y envíanos tu pedido directo por WhatsApp.
-                </p>
-            </section>
-
-            {products.length === 0 ? (
-                <div className="text-center py-16 bg-white rounded-xl border border-gray-200">
-                    <p className="text-gray-500">
-                        No hay productos disponibles en este momento.
-                    </p>
-                </div>
-            ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                    {products.map((product) => (
-                        <ProductCard
-                            key={product.id}
-                            product={product}
-                            currency={currency}
-                        />
-                    ))}
-                </div>
-            )}
-        </div>
+        <CatalogClient
+            initialProducts={products}
+            categories={categories}
+            currency={currency}
+        />
     );
 } 
